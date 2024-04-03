@@ -1,14 +1,37 @@
 import BaseService from '../../BaseService';
 
+import { DeleteResponse } from '../common/DeleteResponse';
+import { ServiceTokensDeleteRequest } from './models/ServiceTokensDeleteRequest';
 import { ServiceTokensListResponse } from './models/ServiceTokensListResponse';
 import { ServiceTokensCreateResponse } from './models/ServiceTokensCreateResponse';
 import { ServiceTokensCreateRequest } from './models/ServiceTokensCreateRequest';
-import { DeleteResponse } from '../common/DeleteResponse';
-import { ServiceTokensDeleteRequest } from './models/ServiceTokensDeleteRequest';
 
 import { serializeQuery } from '../../http/QuerySerializer';
 
 export class ServiceTokensService extends BaseService {
+  /**
+   * @summary Delete
+   * @description Service Token
+
+   * @returns {Promise<DeleteResponse>} - The promise with the result
+   */
+  async delete(input: ServiceTokensDeleteRequest): Promise<DeleteResponse> {
+    const headers: { [key: string]: string } = { 'Content-Type': 'application/json' };
+    const urlEndpoint = '/v3/configs/config/tokens/token';
+    const finalUrl = encodeURI(`${this.baseUrl + urlEndpoint}`);
+    const response: any = await this.httpClient.delete(
+      finalUrl,
+      input,
+      {
+        ...headers,
+        ...this.getAuthorizationHeader(),
+      },
+      true,
+    );
+    const responseModel = response.data as DeleteResponse;
+    return responseModel;
+  }
+
   /**
    * @summary List
    * @description Service Tokens
@@ -31,7 +54,7 @@ export class ServiceTokensService extends BaseService {
       queryParams.push(serializeQuery('form', true, 'config', config));
     }
     const urlEndpoint = '/v3/configs/config/tokens';
-    const finalUrl = `${this.baseUrl + urlEndpoint}?${encodeURI(queryParams.join('&'))}`;
+    const finalUrl = encodeURI(`${this.baseUrl + urlEndpoint}?${queryParams.join('&')}`);
     const response: any = await this.httpClient.get(
       finalUrl,
       {},
@@ -51,9 +74,9 @@ export class ServiceTokensService extends BaseService {
    * @returns {Promise<ServiceTokensCreateResponse>} - The promise with the result
    */
   async create(input: ServiceTokensCreateRequest): Promise<ServiceTokensCreateResponse> {
-    const headers: { [key: string]: string } = { 'Content-type': 'application/json' };
+    const headers: { [key: string]: string } = { 'Content-Type': 'application/json' };
     const urlEndpoint = '/v3/configs/config/tokens';
-    const finalUrl = `${this.baseUrl + urlEndpoint}`;
+    const finalUrl = encodeURI(`${this.baseUrl + urlEndpoint}`);
     const response: any = await this.httpClient.post(
       finalUrl,
       input,
@@ -64,29 +87,6 @@ export class ServiceTokensService extends BaseService {
       true,
     );
     const responseModel = response.data as ServiceTokensCreateResponse;
-    return responseModel;
-  }
-
-  /**
-   * @summary Delete
-   * @description Service Token
-
-   * @returns {Promise<DeleteResponse>} - The promise with the result
-   */
-  async delete(input: ServiceTokensDeleteRequest): Promise<DeleteResponse> {
-    const headers: { [key: string]: string } = { 'Content-type': 'application/json' };
-    const urlEndpoint = '/v3/configs/config/tokens/token';
-    const finalUrl = `${this.baseUrl + urlEndpoint}`;
-    const response: any = await this.httpClient.delete(
-      finalUrl,
-      input,
-      {
-        ...headers,
-        ...this.getAuthorizationHeader(),
-      },
-      true,
-    );
-    const responseModel = response.data as DeleteResponse;
     return responseModel;
   }
 }

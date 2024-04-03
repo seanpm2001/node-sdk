@@ -11,9 +11,9 @@ export class AuthService extends BaseService {
    * @returns {Promise<any>} - The promise with the result
    */
   async revoke(input: RevokeRequest): Promise<any> {
-    const headers: { [key: string]: string } = { 'Content-type': 'application/json' };
+    const headers: { [key: string]: string } = { 'Content-Type': 'application/json' };
     const urlEndpoint = '/v3/auth/revoke';
-    const finalUrl = `${this.baseUrl + urlEndpoint}`;
+    const finalUrl = encodeURI(`${this.baseUrl + urlEndpoint}`);
     const response: any = await this.httpClient.post(
       finalUrl,
       input,
@@ -35,7 +35,7 @@ export class AuthService extends BaseService {
    */
   async me(): Promise<MeResponse> {
     const urlEndpoint = '/v3/me';
-    const finalUrl = `${this.baseUrl + urlEndpoint}`;
+    const finalUrl = encodeURI(`${this.baseUrl + urlEndpoint}`);
     const response: any = await this.httpClient.get(
       finalUrl,
       {},

@@ -26,8 +26,8 @@ export class InvitesService extends BaseService {
       queryParams.push(serializeQuery('form', true, 'per_page', perPage));
     }
     const urlEndpoint = '/v3/workplace/invites';
-    const urlParams = queryParams.length > 0 ? `?${encodeURI(queryParams.join('&'))}` : '';
-    const finalUrl = `${this.baseUrl + urlEndpoint}${urlParams}`;
+    const urlParams = queryParams.length > 0 ? `?${queryParams.join('&')}` : '';
+    const finalUrl = encodeURI(`${this.baseUrl + urlEndpoint}${urlParams}`);
     const response: any = await this.httpClient.get(
       finalUrl,
       {},

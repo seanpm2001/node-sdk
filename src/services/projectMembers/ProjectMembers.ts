@@ -39,8 +39,8 @@ export class ProjectMembersService extends BaseService {
       queryParams.push(serializeQuery('form', true, 'per_page', perPage));
     }
     const urlEndpoint = '/v3/projects/project/members';
-    const urlParams = queryParams.length > 0 ? `?${encodeURI(queryParams.join('&'))}` : '';
-    const finalUrl = `${this.baseUrl + urlEndpoint}${urlParams}`;
+    const urlParams = queryParams.length > 0 ? `?${queryParams.join('&')}` : '';
+    const finalUrl = encodeURI(`${this.baseUrl + urlEndpoint}${urlParams}`);
     const response: any = await this.httpClient.get(
       finalUrl,
       {},
@@ -64,12 +64,12 @@ export class ProjectMembersService extends BaseService {
       throw new Error('The following parameter is required: project, cannot be empty or blank');
     }
     const queryParams: string[] = [];
-    const headers: { [key: string]: string } = { 'Content-type': 'application/json' };
+    const headers: { [key: string]: string } = { 'Content-Type': 'application/json' };
     if (project) {
       queryParams.push(serializeQuery('form', true, 'project', project));
     }
     const urlEndpoint = '/v3/projects/project/members';
-    const finalUrl = `${this.baseUrl + urlEndpoint}?${encodeURI(queryParams.join('&'))}`;
+    const finalUrl = encodeURI(`${this.baseUrl + urlEndpoint}?${queryParams.join('&')}`);
     const response: any = await this.httpClient.post(
       finalUrl,
       input,
@@ -91,10 +91,10 @@ export class ProjectMembersService extends BaseService {
    * @param slug Member's slug
    * @returns {Promise<ProjectMembersGetResponse>} - The promise with the result
    */
-  async get(project: string, type: Type, slug: string): Promise<ProjectMembersGetResponse> {
-    if (project === undefined || type === undefined || slug === undefined) {
+  async get(project: string, type_: Type, slug: string): Promise<ProjectMembersGetResponse> {
+    if (project === undefined || type_ === undefined || slug === undefined) {
       throw new Error(
-        'The following are required parameters: project,type,slug, cannot be empty or blank',
+        'The following are required parameters: project,type_,slug, cannot be empty or blank',
       );
     }
     const queryParams: string[] = [];
@@ -102,15 +102,9 @@ export class ProjectMembersService extends BaseService {
       queryParams.push(serializeQuery('form', true, 'project', project));
     }
     let urlEndpoint = '/v3/projects/project/members/member/{type}/{slug}';
-    urlEndpoint = urlEndpoint.replace(
-      '{type_}',
-      encodeURIComponent(serializePath('simple', false, type, undefined)),
-    );
-    urlEndpoint = urlEndpoint.replace(
-      '{slug}',
-      encodeURIComponent(serializePath('simple', false, slug, undefined)),
-    );
-    const finalUrl = `${this.baseUrl + urlEndpoint}?${encodeURI(queryParams.join('&'))}`;
+    urlEndpoint = urlEndpoint.replace('{type}', serializePath('simple', false, type_, undefined));
+    urlEndpoint = urlEndpoint.replace('{slug}', serializePath('simple', false, slug, undefined));
+    const finalUrl = encodeURI(`${this.baseUrl + urlEndpoint}?${queryParams.join('&')}`);
     const response: any = await this.httpClient.get(
       finalUrl,
       {},
@@ -133,30 +127,24 @@ export class ProjectMembersService extends BaseService {
    */
   async update(
     input: ProjectMembersUpdateRequest,
-    type: Type,
+    type_: Type,
     slug: string,
     project: string,
   ): Promise<ProjectMembersUpdateResponse> {
-    if (type === undefined || slug === undefined || project === undefined) {
+    if (type_ === undefined || slug === undefined || project === undefined) {
       throw new Error(
-        'The following are required parameters: type,slug,project, cannot be empty or blank',
+        'The following are required parameters: type_,slug,project, cannot be empty or blank',
       );
     }
     const queryParams: string[] = [];
-    const headers: { [key: string]: string } = { 'Content-type': 'application/json' };
+    const headers: { [key: string]: string } = { 'Content-Type': 'application/json' };
     let urlEndpoint = '/v3/projects/project/members/member/{type}/{slug}';
-    urlEndpoint = urlEndpoint.replace(
-      '{type_}',
-      encodeURIComponent(serializePath('simple', false, type, undefined)),
-    );
-    urlEndpoint = urlEndpoint.replace(
-      '{slug}',
-      encodeURIComponent(serializePath('simple', false, slug, undefined)),
-    );
+    urlEndpoint = urlEndpoint.replace('{type}', serializePath('simple', false, type_, undefined));
+    urlEndpoint = urlEndpoint.replace('{slug}', serializePath('simple', false, slug, undefined));
     if (project) {
       queryParams.push(serializeQuery('form', true, 'project', project));
     }
-    const finalUrl = `${this.baseUrl + urlEndpoint}?${encodeURI(queryParams.join('&'))}`;
+    const finalUrl = encodeURI(`${this.baseUrl + urlEndpoint}?${queryParams.join('&')}`);
     const response: any = await this.httpClient.patch(
       finalUrl,
       input,
@@ -178,26 +166,20 @@ export class ProjectMembersService extends BaseService {
    * @param project Project slug
    * @returns {Promise<any>} - The promise with the result
    */
-  async delete(type: Type, slug: string, project: string): Promise<any> {
-    if (type === undefined || slug === undefined || project === undefined) {
+  async delete(type_: Type, slug: string, project: string): Promise<any> {
+    if (type_ === undefined || slug === undefined || project === undefined) {
       throw new Error(
-        'The following are required parameters: type,slug,project, cannot be empty or blank',
+        'The following are required parameters: type_,slug,project, cannot be empty or blank',
       );
     }
     const queryParams: string[] = [];
     let urlEndpoint = '/v3/projects/project/members/member/{type}/{slug}';
-    urlEndpoint = urlEndpoint.replace(
-      '{type_}',
-      encodeURIComponent(serializePath('simple', false, type, undefined)),
-    );
-    urlEndpoint = urlEndpoint.replace(
-      '{slug}',
-      encodeURIComponent(serializePath('simple', false, slug, undefined)),
-    );
+    urlEndpoint = urlEndpoint.replace('{type}', serializePath('simple', false, type_, undefined));
+    urlEndpoint = urlEndpoint.replace('{slug}', serializePath('simple', false, slug, undefined));
     if (project) {
       queryParams.push(serializeQuery('form', true, 'project', project));
     }
-    const finalUrl = `${this.baseUrl + urlEndpoint}?${encodeURI(queryParams.join('&'))}`;
+    const finalUrl = encodeURI(`${this.baseUrl + urlEndpoint}?${queryParams.join('&')}`);
     const response: any = await this.httpClient.delete(
       finalUrl,
       { project },

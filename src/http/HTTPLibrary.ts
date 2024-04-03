@@ -3,6 +3,10 @@ import { RequestOptions } from 'https';
 import HTTPClient, { Headers } from './HTTPClient';
 import throwHttpError from './httpExceptions';
 
+// Ignore TS errors when checking if we are running inside Deno or Bun
+declare const Deno: any;
+declare const Bun: any;
+
 interface Response {
   status: number;
   headers: any;
@@ -10,12 +14,7 @@ interface Response {
 }
 
 export default class HTTPLibrary implements HTTPClient {
-  readonly userAgentHeader: Headers = {
-    'User-Agent': 'liblab/0.1.17 DopplerSDK/1.2.0 typescript/5.2.2',
-  };
-
   readonly retryAttempts: number = 3;
-
   readonly retryDelayMs: number = 150;
 
   private static readonly responseMapper: Map<string, string> = new Map<string, string>([
@@ -209,10 +208,22 @@ export default class HTTPLibrary implements HTTPClient {
   }
 
   private getUserAgentHeader(): Headers {
+    const userAgentBase = 'DopplerSDK/1.3.0';
+
+    let userAgent = '';
     if (typeof window !== 'undefined') {
       return {};
+    } else if (typeof process !== 'undefined') {
+      userAgent = `Node.js/${process.version} ${userAgentBase}`;
+    } else if (typeof Deno !== 'undefined') {
+      userAgent = `Deno/${Deno.version.deno} ${userAgentBase}`;
+    } else if (typeof Bun !== 'undefined') {
+      userAgent = `Bun/${Bun.version} ${userAgentBase}`;
+    } else {
+      userAgent = userAgentBase;
     }
-    return this.userAgentHeader;
+
+    return { 'User-Agent': userAgent };
   }
 
   /**
@@ -232,7 +243,7 @@ export default class HTTPLibrary implements HTTPClient {
 
     const convertedObj: Record<string, any> = {};
     Object.entries(obj).forEach(([key, value]) => {
-      if (value) {
+      if (value !== undefined) {
         const convertedKey = jsonMapper.get(key) || key;
         convertedObj[convertedKey] = HTTPLibrary.convertKeysWithMapper(value, jsonMapper);
       }
