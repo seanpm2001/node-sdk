@@ -10,6 +10,10 @@ export interface SyncsCreateRequest {
   integration: string;
   data: Data;
   import_option?: ImportOption;
+  /**
+   * Causes sync creation to wait for the initial sync to complete before returning.
+   */
+  await_initial_sync?: boolean;
 }
 /**
  * Configuration data for the sync

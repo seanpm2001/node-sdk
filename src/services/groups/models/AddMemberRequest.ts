@@ -1,9 +1,9 @@
-type Type = 'workplace_user';
+type Type_ = 'workplace_user';
 
 export interface AddMemberRequest {
   /**
    * The member's slug
    */
   slug: string;
-  type_: Type;
+  type_: Type_;
 }

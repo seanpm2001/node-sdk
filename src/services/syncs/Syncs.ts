@@ -27,7 +27,7 @@ export class SyncsService extends BaseService {
       );
     }
     const queryParams: string[] = [];
-    const headers: { [key: string]: string } = { 'Content-type': 'application/json' };
+    const headers: { [key: string]: string } = { 'Content-Type': 'application/json' };
     if (project) {
       queryParams.push(serializeQuery('form', true, 'project', project));
     }
@@ -35,7 +35,7 @@ export class SyncsService extends BaseService {
       queryParams.push(serializeQuery('form', true, 'config', config));
     }
     const urlEndpoint = '/v3/configs/config/syncs';
-    const finalUrl = `${this.baseUrl + urlEndpoint}?${encodeURI(queryParams.join('&'))}`;
+    const finalUrl = encodeURI(`${this.baseUrl + urlEndpoint}?${queryParams.join('&')}`);
     const response: any = await this.httpClient.post(
       finalUrl,
       input,
@@ -75,7 +75,7 @@ export class SyncsService extends BaseService {
       queryParams.push(serializeQuery('form', true, 'sync', sync));
     }
     const urlEndpoint = '/v3/configs/config/syncs/sync';
-    const finalUrl = `${this.baseUrl + urlEndpoint}?${encodeURI(queryParams.join('&'))}`;
+    const finalUrl = encodeURI(`${this.baseUrl + urlEndpoint}?${queryParams.join('&')}`);
     const response: any = await this.httpClient.get(
       finalUrl,
       {},
@@ -128,7 +128,7 @@ export class SyncsService extends BaseService {
       queryParams.push(serializeQuery('form', true, 'delete_from_target', deleteFromTarget));
     }
     const urlEndpoint = '/v3/configs/config/syncs/sync';
-    const finalUrl = `${this.baseUrl + urlEndpoint}?${encodeURI(queryParams.join('&'))}`;
+    const finalUrl = encodeURI(`${this.baseUrl + urlEndpoint}?${queryParams.join('&')}`);
     const response: any = await this.httpClient.delete(
       finalUrl,
       { project, config, sync, delete_from_target: deleteFromTarget },

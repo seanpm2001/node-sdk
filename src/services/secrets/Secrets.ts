@@ -1,15 +1,15 @@
 import BaseService from '../../BaseService';
 
 import { SecretsListResponse } from './models/SecretsListResponse';
-import { UpdateResponse } from './models/UpdateResponse';
-import { UpdateRequest } from './models/UpdateRequest';
+import { SecretsUpdateResponse } from './models/SecretsUpdateResponse';
+import { SecretsUpdateRequest } from './models/SecretsUpdateRequest';
 import { SecretsGetResponse } from './models/SecretsGetResponse';
 import { Format } from './models/Format';
 import { NameTransformer } from './models/NameTransformer';
 import { DownloadResponse } from './models/DownloadResponse';
-import { NamesResponse } from './models/NamesResponse';
 import { UpdateNoteResponse } from './models/UpdateNoteResponse';
 import { UpdateNoteRequest } from './models/UpdateNoteRequest';
+import { NamesResponse } from './models/NamesResponse';
 
 import { serializeQuery, serializeHeader } from '../../http/QuerySerializer';
 
@@ -54,7 +54,7 @@ export class SecretsService extends BaseService {
     if (config) {
       queryParams.push(serializeQuery('form', true, 'config', config));
     }
-    if (accepts) {
+    if (accepts !== undefined) {
       headers['accepts'] = serializeHeader(false, accepts);
     }
     if (includeDynamicSecrets) {
@@ -76,8 +76,8 @@ export class SecretsService extends BaseService {
       );
     }
     const urlEndpoint = '/v3/configs/config/secrets';
-    const urlParams = queryParams.length > 0 ? `?${encodeURI(queryParams.join('&'))}` : '';
-    const finalUrl = `${this.baseUrl + urlEndpoint}${urlParams}`;
+    const urlParams = queryParams.length > 0 ? `?${queryParams.join('&')}` : '';
+    const finalUrl = encodeURI(`${this.baseUrl + urlEndpoint}${urlParams}`);
     const response: any = await this.httpClient.get(
       finalUrl,
       {},
@@ -95,12 +95,12 @@ export class SecretsService extends BaseService {
    * @summary Update
    * @description Secrets
 
-   * @returns {Promise<UpdateResponse>} - The promise with the result
+   * @returns {Promise<SecretsUpdateResponse>} - The promise with the result
    */
-  async update(input: UpdateRequest): Promise<UpdateResponse> {
-    const headers: { [key: string]: string } = { 'Content-type': 'application/json' };
+  async update(input: SecretsUpdateRequest): Promise<SecretsUpdateResponse> {
+    const headers: { [key: string]: string } = { 'Content-Type': 'application/json' };
     const urlEndpoint = '/v3/configs/config/secrets';
-    const finalUrl = `${this.baseUrl + urlEndpoint}`;
+    const finalUrl = encodeURI(`${this.baseUrl + urlEndpoint}`);
     const response: any = await this.httpClient.post(
       finalUrl,
       input,
@@ -110,7 +110,7 @@ export class SecretsService extends BaseService {
       },
       true,
     );
-    const responseModel = response.data as UpdateResponse;
+    const responseModel = response.data as SecretsUpdateResponse;
     return responseModel;
   }
 
@@ -140,7 +140,7 @@ export class SecretsService extends BaseService {
       queryParams.push(serializeQuery('form', true, 'name', name));
     }
     const urlEndpoint = '/v3/configs/config/secret';
-    const finalUrl = `${this.baseUrl + urlEndpoint}?${encodeURI(queryParams.join('&'))}`;
+    const finalUrl = encodeURI(`${this.baseUrl + urlEndpoint}?${queryParams.join('&')}`);
     const response: any = await this.httpClient.get(
       finalUrl,
       {},
@@ -179,7 +179,7 @@ export class SecretsService extends BaseService {
       queryParams.push(serializeQuery('form', true, 'name', name));
     }
     const urlEndpoint = '/v3/configs/config/secret';
-    const finalUrl = `${this.baseUrl + urlEndpoint}?${encodeURI(queryParams.join('&'))}`;
+    const finalUrl = encodeURI(`${this.baseUrl + urlEndpoint}?${queryParams.join('&')}`);
     const response: any = await this.httpClient.delete(
       finalUrl,
       { project, config, name },
@@ -203,6 +203,7 @@ export class SecretsService extends BaseService {
    * @param optionalParams.nameTransformer - Transform secret names to a different case
    * @param optionalParams.includeDynamicSecrets - Whether or not to issue leases and include dynamic secret values for the config
    * @param optionalParams.dynamicSecretsTtlSec - The number of seconds until dynamic leases expire. Must be used with `include_dynamic_secrets`. Defaults to 1800 (30 minutes).
+   * @param optionalParams.secrets - Comma-delimited list of secrets to include in the download. Defaults to all secrets if left unspecified.
    * @returns {Promise<DownloadResponse>} - The promise with the result
    */
   async download(
@@ -213,9 +214,11 @@ export class SecretsService extends BaseService {
       nameTransformer?: NameTransformer;
       includeDynamicSecrets?: boolean;
       dynamicSecretsTtlSec?: number;
+      secrets?: string;
     } = {},
   ): Promise<DownloadResponse> {
-    const { format, nameTransformer, includeDynamicSecrets, dynamicSecretsTtlSec } = optionalParams;
+    const { format, nameTransformer, includeDynamicSecrets, dynamicSecretsTtlSec, secrets } =
+      optionalParams;
     if (project === undefined || config === undefined) {
       throw new Error(
         'The following are required parameters: project,config, cannot be empty or blank',
@@ -244,9 +247,12 @@ export class SecretsService extends BaseService {
         serializeQuery('form', true, 'dynamic_secrets_ttl_sec', dynamicSecretsTtlSec),
       );
     }
+    if (secrets) {
+      queryParams.push(serializeQuery('form', true, 'secrets', secrets));
+    }
     const urlEndpoint = '/v3/configs/config/secrets/download';
-    const urlParams = queryParams.length > 0 ? `?${encodeURI(queryParams.join('&'))}` : '';
-    const finalUrl = `${this.baseUrl + urlEndpoint}${urlParams}`;
+    const urlParams = queryParams.length > 0 ? `?${queryParams.join('&')}` : '';
+    const finalUrl = encodeURI(`${this.baseUrl + urlEndpoint}${urlParams}`);
     const response: any = await this.httpClient.get(
       finalUrl,
       {},
@@ -256,6 +262,29 @@ export class SecretsService extends BaseService {
       true,
     );
     const responseModel = response.data as DownloadResponse;
+    return responseModel;
+  }
+
+  /**
+   * @summary Update Note
+   * @description Set a note on a secret
+
+   * @returns {Promise<UpdateNoteResponse>} - The promise with the result
+   */
+  async updateNote(input: UpdateNoteRequest): Promise<UpdateNoteResponse> {
+    const headers: { [key: string]: string } = { 'Content-Type': 'application/json' };
+    const urlEndpoint = '/v3/configs/config/secrets/note';
+    const finalUrl = encodeURI(`${this.baseUrl + urlEndpoint}`);
+    const response: any = await this.httpClient.post(
+      finalUrl,
+      input,
+      {
+        ...headers,
+        ...this.getAuthorizationHeader(),
+      },
+      true,
+    );
+    const responseModel = response.data as UpdateNoteResponse;
     return responseModel;
   }
 
@@ -299,8 +328,8 @@ export class SecretsService extends BaseService {
       );
     }
     const urlEndpoint = '/v3/configs/config/secrets/names';
-    const urlParams = queryParams.length > 0 ? `?${encodeURI(queryParams.join('&'))}` : '';
-    const finalUrl = `${this.baseUrl + urlEndpoint}${urlParams}`;
+    const urlParams = queryParams.length > 0 ? `?${queryParams.join('&')}` : '';
+    const finalUrl = encodeURI(`${this.baseUrl + urlEndpoint}${urlParams}`);
     const response: any = await this.httpClient.get(
       finalUrl,
       {},
@@ -310,29 +339,6 @@ export class SecretsService extends BaseService {
       true,
     );
     const responseModel = response.data as NamesResponse;
-    return responseModel;
-  }
-
-  /**
-   * @summary Update Note
-   * @description Set a note on a secret
-
-   * @returns {Promise<UpdateNoteResponse>} - The promise with the result
-   */
-  async updateNote(input: UpdateNoteRequest): Promise<UpdateNoteResponse> {
-    const headers: { [key: string]: string } = { 'Content-type': 'application/json' };
-    const urlEndpoint = '/v3/configs/config/secrets/note';
-    const finalUrl = `${this.baseUrl + urlEndpoint}`;
-    const response: any = await this.httpClient.post(
-      finalUrl,
-      input,
-      {
-        ...headers,
-        ...this.getAuthorizationHeader(),
-      },
-      true,
-    );
-    const responseModel = response.data as UpdateNoteResponse;
     return responseModel;
   }
 }

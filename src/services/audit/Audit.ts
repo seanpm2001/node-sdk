@@ -28,13 +28,13 @@ export class AuditService extends BaseService {
     let urlEndpoint = '/v3/workplace/users/{workplace_user_id}';
     urlEndpoint = urlEndpoint.replace(
       '{workplace_user_id}',
-      encodeURIComponent(serializePath('simple', false, workplaceUserId, undefined)),
+      serializePath('simple', false, workplaceUserId, undefined),
     );
     if (settings) {
       queryParams.push(serializeQuery('form', true, 'settings', settings));
     }
-    const urlParams = queryParams.length > 0 ? `?${encodeURI(queryParams.join('&'))}` : '';
-    const finalUrl = `${this.baseUrl + urlEndpoint}${urlParams}`;
+    const urlParams = queryParams.length > 0 ? `?${queryParams.join('&')}` : '';
+    const finalUrl = encodeURI(`${this.baseUrl + urlEndpoint}${urlParams}`);
     const response: any = await this.httpClient.get(
       finalUrl,
       {},

@@ -1,4 +1,4 @@
-type Type = 'workplace_user' | 'group' | 'invite' | 'service_account';
+type Type_ = 'workplace_user' | 'group' | 'invite' | 'service_account';
 
 export interface AddRequest {
   /**
@@ -13,5 +13,5 @@ export interface AddRequest {
    * Environment slugs to grant the member access to
    */
   environments?: string[];
-  type_: Type;
+  type_: Type_;
 }
