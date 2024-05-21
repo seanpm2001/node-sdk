@@ -1,6 +1,6 @@
 # @dopplerhq/node-sdk
 
-Doppler's SDK for Node provides convenient access to the Doppler API from applications written in JavaScript or TypeScript. 
+Doppler's SDK for Node provides convenient access to the Doppler API from applications written in JavaScript or TypeScript.
 
 ## Installation
 
@@ -13,7 +13,7 @@ npm install @dopplerhq/node-sdk
 ## Usage
 
 ```ts
-import DopplerSDK from '@dopplerhq/node-sdk'
+import DopplerSDK from '@dopplerhq/node-sdk';
 
 const doppler = new DopplerSDK({ accessToken: 'dp.xx.yyy' });
 
@@ -24,3 +24,5 @@ console.log(res);
 ## Reference Docs
 
 [A list of all services and service methods](./src/services/README.MD)
+
+# TODO
