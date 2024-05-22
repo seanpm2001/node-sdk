@@ -22,26 +22,26 @@ describe('test Retrieve', () => {
   describe('test member', () => {
     test('test api call', () => {
       const scope = nock('https://api.doppler.com')
-        .get('/v3/workplace/groups/group/minima/members/exercitationem/hic')
+        .get('/v3/workplace/groups/group/recusandae/members/a/qui')
         .reply(200, { data: {} });
       return sdk.retrieve
-        .member('minima', 'exercitationem', 'hic')
+        .member('recusandae', 'a', 'qui')
         .then((r: any) => expect(r.data).toEqual({}));
     });
 
     test('test will throw error if required fields missing', () => {
       const scope = nock('https://api.doppler.com')
-        .get('/v3/workplace/groups/group/consectetur/members/adipisci/natus')
+        .get('/v3/workplace/groups/group/blanditiis/members/corporis/voluptatum')
         .reply(200, { data: {} });
       return expect(async () => await sdk.retrieve.member()).rejects.toThrow();
     });
 
     test('test will throw error on a non-200 response', () => {
       const scope = nock('https://api.doppler.com')
-        .get('/v3/workplace/groups/group/quasi/members/numquam/distinctio')
+        .get('/v3/workplace/groups/group/laboriosam/members/qui/quidem')
         .reply(404, { data: {} });
       return expect(
-        async () => await sdk.retrieve.member('quasi', 'numquam', 'distinctio'),
+        async () => await sdk.retrieve.member('laboriosam', 'qui', 'quidem'),
       ).rejects.toThrow();
     });
   });

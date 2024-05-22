@@ -22,26 +22,26 @@ describe('test ConfigLogs', () => {
   describe('test get', () => {
     test('test api call', () => {
       const scope = nock('https://api.doppler.com')
-        .get('/v3/configs/config/logs/log?project=alias&config=alias&log=deserunt')
+        .get('/v3/configs/config/logs/log?project=praesentium&config=natus&log=odio')
         .reply(200, { data: {} });
       return sdk.configLogs
-        .get('alias', 'alias', 'deserunt')
+        .get('praesentium', 'natus', 'odio')
         .then((r: any) => expect(r.data).toEqual({}));
     });
 
     test('test will throw error if required fields missing', () => {
       const scope = nock('https://api.doppler.com')
-        .get('/v3/configs/config/logs/log?project=saepe&config=voluptatum&log=saepe')
+        .get('/v3/configs/config/logs/log?project=error&config=illo&log=quasi')
         .reply(200, { data: {} });
       return expect(async () => await sdk.configLogs.get()).rejects.toThrow();
     });
 
     test('test will throw error on a non-200 response', () => {
       const scope = nock('https://api.doppler.com')
-        .get('/v3/configs/config/logs/log?project=reprehenderit&config=accusamus&log=animi')
+        .get('/v3/configs/config/logs/log?project=in&config=exercitationem&log=numquam')
         .reply(404, { data: {} });
       return expect(
-        async () => await sdk.configLogs.get('reprehenderit', 'accusamus', 'animi'),
+        async () => await sdk.configLogs.get('in', 'exercitationem', 'numquam'),
       ).rejects.toThrow();
     });
   });
@@ -49,26 +49,26 @@ describe('test ConfigLogs', () => {
   describe('test list', () => {
     test('test api call', () => {
       const scope = nock('https://api.doppler.com')
-        .get('/v3/configs/config/logs?project=quasi&config=excepturi&page=7&per_page=7')
+        .get('/v3/configs/config/logs?project=fugiat&config=alias&page=3&per_page=5')
         .reply(200, { data: {} });
       return sdk.configLogs
-        .list('quasi', 'excepturi', { page: 7, perPage: 7 })
+        .list('fugiat', 'alias', { page: 3, perPage: 5 })
         .then((r: any) => expect(r.data).toEqual({}));
     });
 
     test('test will throw error if required fields missing', () => {
       const scope = nock('https://api.doppler.com')
-        .get('/v3/configs/config/logs?project=eius&config=facere&page=9&per_page=9')
+        .get('/v3/configs/config/logs?project=eum&config=unde&page=9&per_page=2')
         .reply(200, { data: {} });
       return expect(async () => await sdk.configLogs.list()).rejects.toThrow();
     });
 
     test('test will throw error on a non-200 response', () => {
       const scope = nock('https://api.doppler.com')
-        .get('/v3/configs/config/logs?project=beatae&config=architecto&page=4&per_page=1')
+        .get('/v3/configs/config/logs?project=porro&config=expedita&page=3&per_page=1')
         .reply(404, { data: {} });
       return expect(
-        async () => await sdk.configLogs.list('beatae', 'architecto', { page: 4, perPage: 1 }),
+        async () => await sdk.configLogs.list('porro', 'expedita', { page: 3, perPage: 1 }),
       ).rejects.toThrow();
     });
   });
@@ -76,28 +76,26 @@ describe('test ConfigLogs', () => {
   describe('test rollback', () => {
     test('test api call', () => {
       const scope = nock('https://api.doppler.com')
-        .post('/v3/configs/config/logs/log/rollback?project=quas&config=error&log=excepturi')
+        .post('/v3/configs/config/logs/log/rollback?project=harum&config=est&log=ratione')
         .reply(200, { data: {} });
       return sdk.configLogs
-        .rollback('quas', 'error', 'excepturi')
+        .rollback('harum', 'est', 'ratione')
         .then((r: any) => expect(r.data).toEqual({}));
     });
 
     test('test will throw error if required fields missing', () => {
       const scope = nock('https://api.doppler.com')
-        .post(
-          '/v3/configs/config/logs/log/rollback?project=tempore&config=necessitatibus&log=soluta',
-        )
+        .post('/v3/configs/config/logs/log/rollback?project=sed&config=adipisci&log=illo')
         .reply(200, { data: {} });
       return expect(async () => await sdk.configLogs.rollback()).rejects.toThrow();
     });
 
     test('test will throw error on a non-200 response', () => {
       const scope = nock('https://api.doppler.com')
-        .post('/v3/configs/config/logs/log/rollback?project=omnis&config=expedita&log=saepe')
+        .post('/v3/configs/config/logs/log/rollback?project=illo&config=repudiandae&log=pariatur')
         .reply(404, { data: {} });
       return expect(
-        async () => await sdk.configLogs.rollback('omnis', 'expedita', 'saepe'),
+        async () => await sdk.configLogs.rollback('illo', 'repudiandae', 'pariatur'),
       ).rejects.toThrow();
     });
   });

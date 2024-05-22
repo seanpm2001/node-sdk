@@ -76,6 +76,7 @@ export default class HTTPLibrary implements HTTPClient {
           ...headers,
           ...this.getUserAgentHeader(),
           'content-type': 'application/json',
+          'transfer-encoding': 'chunked',
         },
         JSON.stringify(HTTPLibrary.convertKeysWithMapper(input, this.requestMapper)),
       );
@@ -208,7 +209,7 @@ export default class HTTPLibrary implements HTTPClient {
   }
 
   private getUserAgentHeader(): Headers {
-    const userAgentBase = 'DopplerSDK/1.3.0';
+    const userAgentBase = 'DopplerSDK/1.3.1';
 
     let userAgent = '';
     if (typeof window !== 'undefined') {

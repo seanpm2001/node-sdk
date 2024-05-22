@@ -1,6 +1,6 @@
 {
-  "liblabVersion": "1.1.43",
-  "date": "2024-04-03T23:04:28.847Z",
+  "liblabVersion": "1.1.47",
+  "date": "2024-05-22T21:09:53.103Z",
   "config": {
     "authentication": {
       "access": {
@@ -12,7 +12,7 @@
     "inputFileName": "/tmp/resources/spec/open-api-spec.json",
     "environmentVariables": [],
     "fileOutput": "/tmp",
-    "tempDir": "/tmp/liblab-codegen-1.1.43-Our4mq",
+    "tempDir": "/tmp/liblab-codegen-1.1.47-IuzYlH",
     "inferServiceNames": true,
     "httpLibrary": {
       "name": "https",
@@ -24,7 +24,7 @@
     "privateRepo": false,
     "githubRef": "",
     "sdkName": "DopplerSDK",
-    "sdkVersion": "1.3.0",
+    "sdkVersion": "1.3.1",
     "retry": {
       "enabled": true,
       "maxAttempts": 3,
@@ -63,6 +63,10 @@
     "enforceRequestValidation": false,
     "denoteCommon": false,
     "includeOptionalSnippetParameters": true,
+    "githubRepoName": "node-sdk",
+    "publishing": {
+      "githubOrg": "DopplerHQ"
+    },
     "hooks": {
       "enabled": false,
       "sourceDir": ""
@@ -164,7 +168,6 @@
     "src/services/configs/models/CloneResponse.ts",
     "src/services/configs/models/ConfigsCreateRequest.ts",
     "src/services/configs/models/ConfigsCreateResponse.ts",
-    "src/services/configs/models/ConfigsDeleteRequest.ts",
     "src/services/configs/models/ConfigsGetResponse.ts",
     "src/services/configs/models/ConfigsListResponse.ts",
     "src/services/configs/models/ConfigsUpdateRequest.ts",
