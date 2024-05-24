@@ -4,7 +4,6 @@ import { ConfigsGetResponse } from './models/ConfigsGetResponse';
 import { ConfigsUpdateResponse } from './models/ConfigsUpdateResponse';
 import { DeleteResponse } from '../common/DeleteResponse';
 import { ConfigsUpdateRequest } from './models/ConfigsUpdateRequest';
-import { ConfigsDeleteRequest } from './models/ConfigsDeleteRequest';
 import { ConfigsListResponse } from './models/ConfigsListResponse';
 import { ConfigsCreateResponse } from './models/ConfigsCreateResponse';
 import { ConfigsCreateRequest } from './models/ConfigsCreateRequest';
@@ -84,17 +83,29 @@ export class ConfigsService extends BaseService {
    * @summary Delete
    * @description Permanently delete the config.
 
+   * @param project Unique identifier for the project.
+   * @param config Name of the config.
    * @returns {Promise<DeleteResponse>} - The promise with the result
    */
-  async delete(input: ConfigsDeleteRequest): Promise<DeleteResponse> {
-    const headers: { [key: string]: string } = { 'Content-Type': 'application/json' };
+  async delete(project: string, config: string): Promise<DeleteResponse> {
+    if (project === undefined || config === undefined) {
+      throw new Error(
+        'The following are required parameters: project,config, cannot be empty or blank',
+      );
+    }
+    const queryParams: string[] = [];
+    if (project) {
+      queryParams.push(serializeQuery('form', true, 'project', project));
+    }
+    if (config) {
+      queryParams.push(serializeQuery('form', true, 'config', config));
+    }
     const urlEndpoint = '/v3/configs/config';
-    const finalUrl = encodeURI(`${this.baseUrl + urlEndpoint}`);
+    const finalUrl = encodeURI(`${this.baseUrl + urlEndpoint}?${queryParams.join('&')}`);
     const response: any = await this.httpClient.delete(
       finalUrl,
-      input,
+      { project, config },
       {
-        ...headers,
         ...this.getAuthorizationHeader(),
       },
       true,

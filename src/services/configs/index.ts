@@ -4,7 +4,6 @@ export type { CloneRequest } from './models/CloneRequest';
 export type { CloneResponse } from './models/CloneResponse';
 export type { ConfigsCreateRequest } from './models/ConfigsCreateRequest';
 export type { ConfigsCreateResponse } from './models/ConfigsCreateResponse';
-export type { ConfigsDeleteRequest } from './models/ConfigsDeleteRequest';
 export type { ConfigsGetResponse } from './models/ConfigsGetResponse';
 export type { ConfigsListResponse } from './models/ConfigsListResponse';
 export type { ConfigsUpdateRequest } from './models/ConfigsUpdateRequest';

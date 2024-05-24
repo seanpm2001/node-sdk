@@ -688,7 +688,10 @@ Delete
 
 **Required Parameters**
 
-| input | object | Request body. |
+| Name    | Type   | Description                        |
+| :------ | :----- | :--------------------------------- |
+| project | string | Unique identifier for the project. |
+| config  | string | Name of the config.                |
 
 **Return Type**
 
@@ -704,8 +707,7 @@ const DOPPLERSDK_ACCESS_TOKEN = '';
 const sdk = new DopplerSDK({ accessToken: DOPPLERSDK_ACCESS_TOKEN });
 
 (async () => {
-  const input = { config: 'CONFIG_NAME', project: 'PROJECT_NAME' };
-  const result = await sdk.configs.delete(input);
+  const result = await sdk.configs.delete('project', 'config');
   console.log(result);
 })();
 
@@ -1133,26 +1135,30 @@ const sdk = new DopplerSDK({ accessToken: DOPPLERSDK_ACCESS_TOKEN });
   const input = {
     change_requests: [
       {
-        name: 'cupidatat consectetur ut non quis',
-        originalName: 'occaecat in in',
-        originalValue: 'cillum aute occaecat',
-        originalVisibility: 'sit minim ad',
-        shouldConverge: false,
+        name: 'elit labore',
+        originalName: 'sed',
+        originalValue: 'laboris laborum labore dolor in',
+        originalValueType: { type_: 'yaml' },
+        originalVisibility: 'anim ex nisi',
+        shouldConverge: true,
         shouldDelete: false,
         shouldPromote: false,
-        value: 'consectetur proident ea',
-        visibility: 'in labore exercitation',
+        value: 'et aliquip',
+        valueType: { type_: 'decimal' },
+        visibility: 'dolore non',
       },
       {
-        name: 'laborum anim sint',
-        originalName: 'laboris ut',
-        originalValue: 'in commodo in',
-        originalVisibility: 'tempor',
-        shouldConverge: false,
-        shouldDelete: true,
+        name: 'et nostrud reprehenderit nulla',
+        originalName: 'ut esse Duis',
+        originalValue: 'adipisicing fugiat',
+        originalValueType: { type_: 'yaml' },
+        originalVisibility: 'sunt ex officia Duis laborum',
+        shouldConverge: true,
+        shouldDelete: false,
         shouldPromote: true,
-        value: 'pariatur adipisicing nulla ea',
-        visibility: 'dolore in culpa officia',
+        value: 'cupidatat',
+        valueType: { type_: 'url' },
+        visibility: 'adipisicing',
       },
     ],
     config: 'CONFIG_NAME',
@@ -1208,7 +1214,7 @@ const sdk = new DopplerSDK({ accessToken: DOPPLERSDK_ACCESS_TOKEN });
   const result = await sdk.secrets.list('PROJECT_NAME', 'CONFIG_NAME', {
     accepts: 'application/json',
     includeDynamicSecrets: true,
-    dynamicSecretsTtlSec: -33704873,
+    dynamicSecretsTtlSec: 32556172,
     secrets: 'secrets',
     includeManagedSecrets: true,
   });
@@ -1329,7 +1335,7 @@ const sdk = new DopplerSDK({ accessToken: DOPPLERSDK_ACCESS_TOKEN });
 (async () => {
   const result = await sdk.secrets.download('project', 'config', {
     format: 'json',
-    nameTransformer: 'camel',
+    nameTransformer: 'lower-snake',
     includeDynamicSecrets: true,
     dynamicSecretsTtlSec: 1800,
     secrets: 'secrets',
@@ -1615,7 +1621,7 @@ const sdk = new DopplerSDK({ accessToken: DOPPLERSDK_ACCESS_TOKEN });
   const input = {
     access: 'read',
     config: 'CONFIG_NAME',
-    expire_at: '1908-01-12T01:17:11.0Z',
+    expire_at: '1945-04-10T09:05:58.0Z',
     name: 'TOKEN_NAME',
     project: 'PROJECT_NAME',
   };
@@ -1766,7 +1772,7 @@ const sdk = new DopplerSDK({ accessToken: DOPPLERSDK_ACCESS_TOKEN });
     config: 'config',
     dynamic_secret: 'dynamic_secret',
     project: 'project',
-    ttl_sec: -46828653,
+    ttl_sec: 43150140,
   };
   const result = await sdk.dynamicSecrets.issueLease(input);
   console.log(result);
@@ -2130,7 +2136,10 @@ const DOPPLERSDK_ACCESS_TOKEN = '';
 const sdk = new DopplerSDK({ accessToken: DOPPLERSDK_ACCESS_TOKEN });
 
 (async () => {
-  const input = { name: 'name', permissions: ['sunt', 'deserunt ad Lorem nisi'] };
+  const input = {
+    name: 'name',
+    permissions: ['aliqua ullamco ut consectetur eiusmod', 'voluptate sunt consequat'],
+  };
   const result = await sdk.workplaceRoles.create(input);
   console.log(result);
 })();
@@ -2225,7 +2234,10 @@ const DOPPLERSDK_ACCESS_TOKEN = '';
 const sdk = new DopplerSDK({ accessToken: DOPPLERSDK_ACCESS_TOKEN });
 
 (async () => {
-  const input = { name: 'name', permissions: ['sint consequat', 'dolor aute esse adipisicing'] };
+  const input = {
+    name: 'name',
+    permissions: ['consectetur consequat sint ullamco', 'Excepteur incididunt laborum'],
+  };
   const result = await sdk.workplaceRoles.update(input, 'role');
   console.log(result);
 })();
@@ -2353,7 +2365,7 @@ const DOPPLERSDK_ACCESS_TOKEN = '';
 const sdk = new DopplerSDK({ accessToken: DOPPLERSDK_ACCESS_TOKEN });
 
 (async () => {
-  const input = { name: 'name', permissions: ['cupidatat laborum Ut proident amet', 'anim ut'] };
+  const input = { name: 'name', permissions: ['incididunt', 'cupidatat veniam laboris'] };
   const result = await sdk.projectRoles.update(input, 'role');
   console.log(result);
 })();
@@ -2418,10 +2430,7 @@ const DOPPLERSDK_ACCESS_TOKEN = '';
 const sdk = new DopplerSDK({ accessToken: DOPPLERSDK_ACCESS_TOKEN });
 
 (async () => {
-  const input = {
-    name: 'name',
-    permissions: ['Lorem ea quis commodo occaecat', 'qui voluptate et consectetur dolor'],
-  };
+  const input = { name: 'name', permissions: ['ut', 'irure'] };
   const result = await sdk.projectRoles.create(input);
   console.log(result);
 })();
@@ -2511,7 +2520,7 @@ const sdk = new DopplerSDK({ accessToken: DOPPLERSDK_ACCESS_TOKEN });
 
 (async () => {
   const input = {
-    environments: ['laborum elit enim cillum', 'consequat quis'],
+    environments: ['exercitation', 'officia occaecat'],
     role: 'role',
     slug: 'slug',
     type_: 'group',
@@ -2629,11 +2638,8 @@ const DOPPLERSDK_ACCESS_TOKEN = '';
 const sdk = new DopplerSDK({ accessToken: DOPPLERSDK_ACCESS_TOKEN });
 
 (async () => {
-  const input = {
-    environments: ['incididunt veniam in dolor', 'qui laborum sint exercitation ut'],
-    role: 'role',
-  };
-  const result = await sdk.projectMembers.update(input, 'invite', 'slug', 'project');
+  const input = { environments: ['ex culpa in', 'consequat'], role: 'role' };
+  const result = await sdk.projectMembers.update(input, 'group', 'slug', 'project');
   console.log(result);
 })();
 
@@ -2668,7 +2674,7 @@ const DOPPLERSDK_ACCESS_TOKEN = '';
 const sdk = new DopplerSDK({ accessToken: DOPPLERSDK_ACCESS_TOKEN });
 
 (async () => {
-  const result = await sdk.projectMembers.delete('service_account', 'slug', 'project');
+  const result = await sdk.projectMembers.delete('workplace_user', 'slug', 'project');
   console.log(result);
 })();
 
@@ -2775,7 +2781,7 @@ const sdk = new DopplerSDK({ accessToken: DOPPLERSDK_ACCESS_TOKEN });
     name: 'name',
     workplace_role: {
       identifier: 'identifier',
-      permissions: ['enim irure reprehenderit', 'eiusmod consequat proident veniam'],
+      permissions: ['cillum ut in', 'sunt non elit amet'],
     },
   };
   const result = await sdk.serviceAccounts.update(input, 'slug');
@@ -2846,7 +2852,7 @@ const sdk = new DopplerSDK({ accessToken: DOPPLERSDK_ACCESS_TOKEN });
     name: 'name',
     workplace_role: {
       identifier: 'identifier',
-      permissions: ['do consequat', 'eiusmod quis nostrud nisi laborum'],
+      permissions: ['elit mollit pariatur', 'sit ullamco enim'],
     },
   };
   const result = await sdk.serviceAccounts.create(input);
@@ -3575,7 +3581,7 @@ const DOPPLERSDK_ACCESS_TOKEN = '';
 const sdk = new DopplerSDK({ accessToken: DOPPLERSDK_ACCESS_TOKEN });
 
 (async () => {
-  const input = { expires_at: '1940-05-02T11:24:43.0Z', name: 'name' };
+  const input = { expires_at: '1961-05-16T03:56:22.0Z', name: 'name' };
   const result = await sdk.serviceAccountTokens.create(input, 'service_account');
   console.log(result);
 })();

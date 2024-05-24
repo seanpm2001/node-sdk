@@ -22,23 +22,23 @@ describe('test Configs', () => {
   describe('test get', () => {
     test('test api call', () => {
       const scope = nock('https://api.doppler.com')
-        .get('/v3/configs/config?project=sint&config=non')
+        .get('/v3/configs/config?project=laborum&config=alias')
         .reply(200, { data: {} });
-      return sdk.configs.get('sint', 'non').then((r: any) => expect(r.data).toEqual({}));
+      return sdk.configs.get('laborum', 'alias').then((r: any) => expect(r.data).toEqual({}));
     });
 
     test('test will throw error if required fields missing', () => {
       const scope = nock('https://api.doppler.com')
-        .get('/v3/configs/config?project=quasi&config=repudiandae')
+        .get('/v3/configs/config?project=veritatis&config=eligendi')
         .reply(200, { data: {} });
       return expect(async () => await sdk.configs.get()).rejects.toThrow();
     });
 
     test('test will throw error on a non-200 response', () => {
       const scope = nock('https://api.doppler.com')
-        .get('/v3/configs/config?project=quis&config=consectetur')
+        .get('/v3/configs/config?project=error&config=iste')
         .reply(404, { data: {} });
-      return expect(async () => await sdk.configs.get('quis', 'consectetur')).rejects.toThrow();
+      return expect(async () => await sdk.configs.get('error', 'iste')).rejects.toThrow();
     });
   });
 
@@ -54,35 +54,54 @@ describe('test Configs', () => {
   describe('test delete', () => {
     test('test api call', () => {
       const scope = nock('https://api.doppler.com')
-        .delete('/v3/configs/config')
+        .delete('/v3/configs/config?project=distinctio&config=voluptate')
         .reply(200, { data: {} });
-      return sdk.configs.delete({}).then((r: any) => expect(r.data).toEqual({}));
+      return sdk.configs
+        .delete('distinctio', 'voluptate')
+        .then((r: any) => expect(r.data).toEqual({}));
+    });
+
+    test('test will throw error if required fields missing', () => {
+      const scope = nock('https://api.doppler.com')
+        .delete('/v3/configs/config?project=quam&config=enim')
+        .reply(200, { data: {} });
+      return expect(async () => await sdk.configs.delete()).rejects.toThrow();
+    });
+
+    test('test will throw error on a non-200 response', () => {
+      const scope = nock('https://api.doppler.com')
+        .delete('/v3/configs/config?project=reprehenderit&config=minima')
+        .reply(404, { data: {} });
+      return expect(
+        async () => await sdk.configs.delete('reprehenderit', 'minima'),
+      ).rejects.toThrow();
     });
   });
 
   describe('test list', () => {
     test('test api call', () => {
       const scope = nock('https://api.doppler.com')
-        .get('/v3/configs?project=cumque&environment=ipsam&page=1&per_page=4')
+        .get('/v3/configs?project=doloribus&environment=voluptatem&page=1&per_page=1')
         .reply(200, { data: {} });
       return sdk.configs
-        .list('cumque', { environment: 'ipsam', page: 1, perPage: 4 })
+        .list('doloribus', { environment: 'voluptatem', page: 1, perPage: 1 })
         .then((r: any) => expect(r.data).toEqual({}));
     });
 
     test('test will throw error if required fields missing', () => {
       const scope = nock('https://api.doppler.com')
-        .get('/v3/configs?project=ratione&environment=adipisci&page=3&per_page=7')
+        .get('/v3/configs?project=consequuntur&environment=velit&page=2&per_page=7')
         .reply(200, { data: {} });
       return expect(async () => await sdk.configs.list()).rejects.toThrow();
     });
 
     test('test will throw error on a non-200 response', () => {
       const scope = nock('https://api.doppler.com')
-        .get('/v3/configs?project=sint&environment=fuga&page=1&per_page=7')
+        .get('/v3/configs?project=laborum&environment=voluptate&page=8&per_page=3')
         .reply(404, { data: {} });
       return expect(
-        async () => await sdk.configs.list('sint', { environment: 'fuga', page: 1, perPage: 7 }),
+        async () =>
+          await sdk.configs.list('laborum', { environment: 'voluptate', page: 8, perPage: 3 }),
       ).rejects.toThrow();
     });
   });
@@ -124,26 +143,26 @@ describe('test Configs', () => {
   describe('test listTrustedIps', () => {
     test('test api call', () => {
       const scope = nock('https://api.doppler.com')
-        .get('/v3/configs/config/trusted_ips?project=ab&config=fugiat')
+        .get('/v3/configs/config/trusted_ips?project=dolorem&config=quisquam')
         .reply(200, { data: {} });
       return sdk.configs
-        .listTrustedIps('ab', 'fugiat')
+        .listTrustedIps('dolorem', 'quisquam')
         .then((r: any) => expect(r.data).toEqual({}));
     });
 
     test('test will throw error if required fields missing', () => {
       const scope = nock('https://api.doppler.com')
-        .get('/v3/configs/config/trusted_ips?project=laboriosam&config=voluptas')
+        .get('/v3/configs/config/trusted_ips?project=cupiditate&config=error')
         .reply(200, { data: {} });
       return expect(async () => await sdk.configs.listTrustedIps()).rejects.toThrow();
     });
 
     test('test will throw error on a non-200 response', () => {
       const scope = nock('https://api.doppler.com')
-        .get('/v3/configs/config/trusted_ips?project=iste&config=assumenda')
+        .get('/v3/configs/config/trusted_ips?project=dignissimos&config=delectus')
         .reply(404, { data: {} });
       return expect(
-        async () => await sdk.configs.listTrustedIps('iste', 'assumenda'),
+        async () => await sdk.configs.listTrustedIps('dignissimos', 'delectus'),
       ).rejects.toThrow();
     });
   });
@@ -151,51 +170,53 @@ describe('test Configs', () => {
   describe('test addTrustedIp', () => {
     test('test api call', () => {
       const scope = nock('https://api.doppler.com')
-        .post('/v3/configs/config/trusted_ips?project=nobis&config=tempore')
+        .post('/v3/configs/config/trusted_ips?project=dolor&config=laboriosam')
         .reply(200, { data: {} });
       return sdk.configs
-        .addTrustedIp({}, 'nobis', 'tempore')
+        .addTrustedIp({}, 'dolor', 'laboriosam')
         .then((r: any) => expect(r.data).toEqual({}));
     });
 
     test('test will throw error if required fields missing', () => {
       const scope = nock('https://api.doppler.com')
-        .post('/v3/configs/config/trusted_ips?project=explicabo&config=facere')
+        .post('/v3/configs/config/trusted_ips?project=possimus&config=temporibus')
         .reply(200, { data: {} });
       return expect(async () => await sdk.configs.addTrustedIp()).rejects.toThrow();
     });
 
     test('test will throw error on a non-200 response', () => {
       const scope = nock('https://api.doppler.com')
-        .post('/v3/configs/config/trusted_ips?project=et&config=esse')
+        .post('/v3/configs/config/trusted_ips?project=dicta&config=adipisci')
         .reply(404, { data: {} });
-      return expect(async () => await sdk.configs.addTrustedIp({}, 'et', 'esse')).rejects.toThrow();
+      return expect(
+        async () => await sdk.configs.addTrustedIp({}, 'dicta', 'adipisci'),
+      ).rejects.toThrow();
     });
   });
 
   describe('test deleteTrustedIp', () => {
     test('test api call', () => {
       const scope = nock('https://api.doppler.com')
-        .delete('/v3/configs/config/trusted_ips?project=dignissimos&config=quaerat')
+        .delete('/v3/configs/config/trusted_ips?project=laudantium&config=dicta')
         .reply(200, { data: {} });
       return sdk.configs
-        .deleteTrustedIp({}, 'dignissimos', 'quaerat')
+        .deleteTrustedIp({}, 'laudantium', 'dicta')
         .then((r: any) => expect(r.data).toEqual({}));
     });
 
     test('test will throw error if required fields missing', () => {
       const scope = nock('https://api.doppler.com')
-        .delete('/v3/configs/config/trusted_ips?project=necessitatibus&config=itaque')
+        .delete('/v3/configs/config/trusted_ips?project=dolore&config=beatae')
         .reply(200, { data: {} });
       return expect(async () => await sdk.configs.deleteTrustedIp()).rejects.toThrow();
     });
 
     test('test will throw error on a non-200 response', () => {
       const scope = nock('https://api.doppler.com')
-        .delete('/v3/configs/config/trusted_ips?project=blanditiis&config=repellat')
+        .delete('/v3/configs/config/trusted_ips?project=repellendus&config=error')
         .reply(404, { data: {} });
       return expect(
-        async () => await sdk.configs.deleteTrustedIp({}, 'blanditiis', 'repellat'),
+        async () => await sdk.configs.deleteTrustedIp({}, 'repellendus', 'error'),
       ).rejects.toThrow();
     });
   });

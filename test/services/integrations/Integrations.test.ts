@@ -22,71 +22,73 @@ describe('test Integrations', () => {
   describe('test get', () => {
     test('test api call', () => {
       const scope = nock('https://api.doppler.com')
-        .get('/v3/integrations/integration?integration=facilis')
+        .get('/v3/integrations/integration?integration=rem')
         .reply(200, { data: {} });
-      return sdk.integrations.get('facilis').then((r: any) => expect(r.data).toEqual({}));
+      return sdk.integrations.get('rem').then((r: any) => expect(r.data).toEqual({}));
     });
 
     test('test will throw error if required fields missing', () => {
       const scope = nock('https://api.doppler.com')
-        .get('/v3/integrations/integration?integration=sint')
+        .get('/v3/integrations/integration?integration=voluptatum')
         .reply(200, { data: {} });
       return expect(async () => await sdk.integrations.get()).rejects.toThrow();
     });
 
     test('test will throw error on a non-200 response', () => {
       const scope = nock('https://api.doppler.com')
-        .get('/v3/integrations/integration?integration=fugit')
+        .get('/v3/integrations/integration?integration=quos')
         .reply(404, { data: {} });
-      return expect(async () => await sdk.integrations.get('fugit')).rejects.toThrow();
+      return expect(async () => await sdk.integrations.get('quos')).rejects.toThrow();
     });
   });
 
   describe('test update', () => {
     test('test api call', () => {
       const scope = nock('https://api.doppler.com')
-        .put('/v3/integrations/integration?integration=consequuntur')
+        .put('/v3/integrations/integration?integration=exercitationem')
         .reply(200, { data: {} });
       return sdk.integrations
-        .update({}, 'consequuntur')
+        .update({}, 'exercitationem')
         .then((r: any) => expect(r.data).toEqual({}));
     });
 
     test('test will throw error if required fields missing', () => {
       const scope = nock('https://api.doppler.com')
-        .put('/v3/integrations/integration?integration=blanditiis')
+        .put('/v3/integrations/integration?integration=ut')
         .reply(200, { data: {} });
       return expect(async () => await sdk.integrations.update()).rejects.toThrow();
     });
 
     test('test will throw error on a non-200 response', () => {
       const scope = nock('https://api.doppler.com')
-        .put('/v3/integrations/integration?integration=cum')
+        .put('/v3/integrations/integration?integration=voluptatibus')
         .reply(404, { data: {} });
-      return expect(async () => await sdk.integrations.update({}, 'cum')).rejects.toThrow();
+      return expect(
+        async () => await sdk.integrations.update({}, 'voluptatibus'),
+      ).rejects.toThrow();
     });
   });
 
   describe('test delete', () => {
     test('test api call', () => {
       const scope = nock('https://api.doppler.com')
-        .delete('/v3/integrations/integration?integration=dolores')
+        .delete('/v3/integrations/integration?integration=impedit')
         .reply(200, { data: {} });
-      return sdk.integrations.delete('dolores').then((r: any) => expect(r.data).toEqual({}));
+      return sdk.integrations.delete('impedit').then((r: any) => expect(r.data).toEqual({}));
     });
 
     test('test will throw error if required fields missing', () => {
       const scope = nock('https://api.doppler.com')
-        .delete('/v3/integrations/integration?integration=distinctio')
+        .delete('/v3/integrations/integration?integration=blanditiis')
         .reply(200, { data: {} });
       return expect(async () => await sdk.integrations.delete()).rejects.toThrow();
     });
 
     test('test will throw error on a non-200 response', () => {
       const scope = nock('https://api.doppler.com')
-        .delete('/v3/integrations/integration?integration=vero')
+        .delete('/v3/integrations/integration?integration=nisi')
         .reply(404, { data: {} });
-      return expect(async () => await sdk.integrations.delete('vero')).rejects.toThrow();
+      return expect(async () => await sdk.integrations.delete('nisi')).rejects.toThrow();
     });
   });
 

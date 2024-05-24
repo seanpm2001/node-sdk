@@ -1,4 +1,7 @@
 export interface ServiceTokensCreateResponse {
+  token?: Token;
+}
+interface Token {
   name?: string;
   slug?: string;
   created_at?: string;

@@ -10,7 +10,6 @@ export type { ConfigLogsGetResponse } from './services/configLogs/models/ConfigL
 export type { ConfigLogsListResponse } from './services/configLogs/models/ConfigLogsListResponse';
 export type { ConfigsCreateRequest } from './services/configs/models/ConfigsCreateRequest';
 export type { ConfigsCreateResponse } from './services/configs/models/ConfigsCreateResponse';
-export type { ConfigsDeleteRequest } from './services/configs/models/ConfigsDeleteRequest';
 export type { ConfigsGetResponse } from './services/configs/models/ConfigsGetResponse';
 export type { ConfigsListResponse } from './services/configs/models/ConfigsListResponse';
 export type { ConfigsUpdateRequest } from './services/configs/models/ConfigsUpdateRequest';
