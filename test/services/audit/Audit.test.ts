@@ -22,26 +22,26 @@ describe('test Audit', () => {
   describe('test getUser', () => {
     test('test api call', () => {
       const scope = nock('https://api.doppler.com')
-        .get('/v3/workplace/users/2031004567?settings=true')
+        .get('/v3/workplace/users/3877253073?settings=true')
         .reply(200, { data: {} });
       return sdk.audit
-        .getUser('2031004567', { settings: true })
+        .getUser('3877253073', { settings: true })
         .then((r: any) => expect(r.data).toEqual({}));
     });
 
     test('test will throw error if required fields missing', () => {
       const scope = nock('https://api.doppler.com')
-        .get('/v3/workplace/users/3960938579?settings=true')
+        .get('/v3/workplace/users/7199993971?settings=true')
         .reply(200, { data: {} });
       return expect(async () => await sdk.audit.getUser()).rejects.toThrow();
     });
 
     test('test will throw error on a non-200 response', () => {
       const scope = nock('https://api.doppler.com')
-        .get('/v3/workplace/users/6075520821?settings=true')
+        .get('/v3/workplace/users/7940545805?settings=true')
         .reply(404, { data: {} });
       return expect(
-        async () => await sdk.audit.getUser('6075520821', { settings: true }),
+        async () => await sdk.audit.getUser('7940545805', { settings: true }),
       ).rejects.toThrow();
     });
   });

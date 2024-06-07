@@ -22,71 +22,71 @@ describe('test Integrations', () => {
   describe('test get', () => {
     test('test api call', () => {
       const scope = nock('https://api.doppler.com')
-        .get('/v3/integrations/integration?integration=facilis')
+        .get('/v3/integrations/integration?integration=sequi')
         .reply(200, { data: {} });
-      return sdk.integrations.get('facilis').then((r: any) => expect(r.data).toEqual({}));
+      return sdk.integrations.get('sequi').then((r: any) => expect(r.data).toEqual({}));
     });
 
     test('test will throw error if required fields missing', () => {
       const scope = nock('https://api.doppler.com')
-        .get('/v3/integrations/integration?integration=sint')
+        .get('/v3/integrations/integration?integration=id')
         .reply(200, { data: {} });
       return expect(async () => await sdk.integrations.get()).rejects.toThrow();
     });
 
     test('test will throw error on a non-200 response', () => {
       const scope = nock('https://api.doppler.com')
-        .get('/v3/integrations/integration?integration=fugit')
+        .get('/v3/integrations/integration?integration=ducimus')
         .reply(404, { data: {} });
-      return expect(async () => await sdk.integrations.get('fugit')).rejects.toThrow();
+      return expect(async () => await sdk.integrations.get('ducimus')).rejects.toThrow();
     });
   });
 
   describe('test update', () => {
     test('test api call', () => {
       const scope = nock('https://api.doppler.com')
-        .put('/v3/integrations/integration?integration=consequuntur')
+        .put('/v3/integrations/integration?integration=mollitia')
         .reply(200, { data: {} });
-      return sdk.integrations
-        .update({}, 'consequuntur')
-        .then((r: any) => expect(r.data).toEqual({}));
+      return sdk.integrations.update({}, 'mollitia').then((r: any) => expect(r.data).toEqual({}));
     });
 
     test('test will throw error if required fields missing', () => {
       const scope = nock('https://api.doppler.com')
-        .put('/v3/integrations/integration?integration=blanditiis')
+        .put('/v3/integrations/integration?integration=eveniet')
         .reply(200, { data: {} });
       return expect(async () => await sdk.integrations.update()).rejects.toThrow();
     });
 
     test('test will throw error on a non-200 response', () => {
       const scope = nock('https://api.doppler.com')
-        .put('/v3/integrations/integration?integration=cum')
+        .put('/v3/integrations/integration?integration=exercitationem')
         .reply(404, { data: {} });
-      return expect(async () => await sdk.integrations.update({}, 'cum')).rejects.toThrow();
+      return expect(
+        async () => await sdk.integrations.update({}, 'exercitationem'),
+      ).rejects.toThrow();
     });
   });
 
   describe('test delete', () => {
     test('test api call', () => {
       const scope = nock('https://api.doppler.com')
-        .delete('/v3/integrations/integration?integration=dolores')
+        .delete('/v3/integrations/integration?integration=illum')
         .reply(200, { data: {} });
-      return sdk.integrations.delete('dolores').then((r: any) => expect(r.data).toEqual({}));
+      return sdk.integrations.delete('illum').then((r: any) => expect(r.data).toEqual({}));
     });
 
     test('test will throw error if required fields missing', () => {
       const scope = nock('https://api.doppler.com')
-        .delete('/v3/integrations/integration?integration=distinctio')
+        .delete('/v3/integrations/integration?integration=quis')
         .reply(200, { data: {} });
       return expect(async () => await sdk.integrations.delete()).rejects.toThrow();
     });
 
     test('test will throw error on a non-200 response', () => {
       const scope = nock('https://api.doppler.com')
-        .delete('/v3/integrations/integration?integration=vero')
+        .delete('/v3/integrations/integration?integration=reprehenderit')
         .reply(404, { data: {} });
-      return expect(async () => await sdk.integrations.delete('vero')).rejects.toThrow();
+      return expect(async () => await sdk.integrations.delete('reprehenderit')).rejects.toThrow();
     });
   });
 

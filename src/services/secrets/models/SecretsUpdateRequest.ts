@@ -1,3 +1,34 @@
+type Type_ =
+  | 'string'
+  | 'json'
+  | 'json5'
+  | 'boolean'
+  | 'integer'
+  | 'decimal'
+  | 'email'
+  | 'url'
+  | 'uuidv4'
+  | 'cuid2'
+  | 'ulid'
+  | 'datetime8601'
+  | 'date8601'
+  | 'yaml';
+type Type_1 =
+  | 'string'
+  | 'json'
+  | 'json5'
+  | 'boolean'
+  | 'integer'
+  | 'decimal'
+  | 'email'
+  | 'url'
+  | 'uuidv4'
+  | 'cuid2'
+  | 'ulid'
+  | 'datetime8601'
+  | 'date8601'
+  | 'yaml';
+
 export interface SecretsUpdateRequest {
   /**
    * Unique identifier for the project object.
@@ -48,6 +79,8 @@ export interface SecretsUpdateRequest {
      * Defaults to `false`. Can only be set to `true` if the config being updated is a branch config and there is a secret with the same name in the root config. In this case, the branch secret will inherit the value and visibility type from the root secret.
      */
     shouldConverge?: boolean;
+    valueType?: ValueType;
+    originalValueType?: OriginalValueType;
   }[];
 }
 /**
@@ -55,4 +88,16 @@ export interface SecretsUpdateRequest {
  */
 interface Secrets {
   [k: string]: string;
+}
+/**
+ * The default valueType (string) will result in no validations being applied.
+ */
+interface ValueType {
+  type_?: Type_;
+}
+/**
+ * The valueType you expect the secret to have before `valueType` is applied. If specified, the request will only be processed if the provided valueType matches what's found in Doppler.
+ */
+interface OriginalValueType {
+  type_?: Type_1;
 }

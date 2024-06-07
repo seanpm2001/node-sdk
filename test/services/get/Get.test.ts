@@ -22,23 +22,23 @@ describe('test Get', () => {
   describe('test options', () => {
     test('test api call', () => {
       const scope = nock('https://api.doppler.com')
-        .get('/v3/integrations/integration/options?integration=quae')
+        .get('/v3/integrations/integration/options?integration=accusantium')
         .reply(200, { data: {} });
-      return sdk.get.options('quae').then((r: any) => expect(r.data).toEqual({}));
+      return sdk.get.options('accusantium').then((r: any) => expect(r.data).toEqual({}));
     });
 
     test('test will throw error if required fields missing', () => {
       const scope = nock('https://api.doppler.com')
-        .get('/v3/integrations/integration/options?integration=delectus')
+        .get('/v3/integrations/integration/options?integration=officia')
         .reply(200, { data: {} });
       return expect(async () => await sdk.get.options()).rejects.toThrow();
     });
 
     test('test will throw error on a non-200 response', () => {
       const scope = nock('https://api.doppler.com')
-        .get('/v3/integrations/integration/options?integration=possimus')
+        .get('/v3/integrations/integration/options?integration=enim')
         .reply(404, { data: {} });
-      return expect(async () => await sdk.get.options('possimus')).rejects.toThrow();
+      return expect(async () => await sdk.get.options('enim')).rejects.toThrow();
     });
   });
 });

@@ -4,14 +4,13 @@ import { ConfigsGetResponse } from './models/ConfigsGetResponse';
 import { ConfigsUpdateResponse } from './models/ConfigsUpdateResponse';
 import { DeleteResponse } from '../common/DeleteResponse';
 import { ConfigsUpdateRequest } from './models/ConfigsUpdateRequest';
-import { ConfigsDeleteRequest } from './models/ConfigsDeleteRequest';
 import { ConfigsListResponse } from './models/ConfigsListResponse';
 import { ConfigsCreateResponse } from './models/ConfigsCreateResponse';
 import { ConfigsCreateRequest } from './models/ConfigsCreateRequest';
-import { UnlockResponse } from './models/UnlockResponse';
-import { UnlockRequest } from './models/UnlockRequest';
 import { CloneResponse } from './models/CloneResponse';
 import { CloneRequest } from './models/CloneRequest';
+import { UnlockResponse } from './models/UnlockResponse';
+import { UnlockRequest } from './models/UnlockRequest';
 import { LockResponse } from './models/LockResponse';
 import { LockRequest } from './models/LockRequest';
 import { ListTrustedIpsResponse } from './models/ListTrustedIpsResponse';
@@ -84,17 +83,29 @@ export class ConfigsService extends BaseService {
    * @summary Delete
    * @description Permanently delete the config.
 
+   * @param project Unique identifier for the project.
+   * @param config Name of the config.
    * @returns {Promise<DeleteResponse>} - The promise with the result
    */
-  async delete(input: ConfigsDeleteRequest): Promise<DeleteResponse> {
-    const headers: { [key: string]: string } = { 'Content-Type': 'application/json' };
+  async delete(project: string, config: string): Promise<DeleteResponse> {
+    if (project === undefined || config === undefined) {
+      throw new Error(
+        'The following are required parameters: project,config, cannot be empty or blank',
+      );
+    }
+    const queryParams: string[] = [];
+    if (project) {
+      queryParams.push(serializeQuery('form', true, 'project', project));
+    }
+    if (config) {
+      queryParams.push(serializeQuery('form', true, 'config', config));
+    }
     const urlEndpoint = '/v3/configs/config';
-    const finalUrl = encodeURI(`${this.baseUrl + urlEndpoint}`);
+    const finalUrl = encodeURI(`${this.baseUrl + urlEndpoint}?${queryParams.join('&')}`);
     const response: any = await this.httpClient.delete(
       finalUrl,
-      input,
+      { project, config },
       {
-        ...headers,
         ...this.getAuthorizationHeader(),
       },
       true,
@@ -174,29 +185,6 @@ export class ConfigsService extends BaseService {
   }
 
   /**
-   * @summary Unlock
-   * @description Allow the config to be renamed and/or deleted.
-
-   * @returns {Promise<UnlockResponse>} - The promise with the result
-   */
-  async unlock(input: UnlockRequest): Promise<UnlockResponse> {
-    const headers: { [key: string]: string } = { 'Content-Type': 'application/json' };
-    const urlEndpoint = '/v3/configs/config/unlock';
-    const finalUrl = encodeURI(`${this.baseUrl + urlEndpoint}`);
-    const response: any = await this.httpClient.post(
-      finalUrl,
-      input,
-      {
-        ...headers,
-        ...this.getAuthorizationHeader(),
-      },
-      true,
-    );
-    const responseModel = response.data as UnlockResponse;
-    return responseModel;
-  }
-
-  /**
    * @summary Clone
    * @description Create a new branch config by cloning another. This duplicates a branch config and all its secrets.
 
@@ -216,6 +204,29 @@ export class ConfigsService extends BaseService {
       true,
     );
     const responseModel = response.data as CloneResponse;
+    return responseModel;
+  }
+
+  /**
+   * @summary Unlock
+   * @description Allow the config to be renamed and/or deleted.
+
+   * @returns {Promise<UnlockResponse>} - The promise with the result
+   */
+  async unlock(input: UnlockRequest): Promise<UnlockResponse> {
+    const headers: { [key: string]: string } = { 'Content-Type': 'application/json' };
+    const urlEndpoint = '/v3/configs/config/unlock';
+    const finalUrl = encodeURI(`${this.baseUrl + urlEndpoint}`);
+    const response: any = await this.httpClient.post(
+      finalUrl,
+      input,
+      {
+        ...headers,
+        ...this.getAuthorizationHeader(),
+      },
+      true,
+    );
+    const responseModel = response.data as UnlockResponse;
     return responseModel;
   }
 

@@ -22,10 +22,10 @@ describe('test Users', () => {
   describe('test list', () => {
     test('test api call', () => {
       const scope = nock('https://api.doppler.com')
-        .get('/v3/workplace/users?page=2&email=Pascale.Yundt@gmail.com')
+        .get('/v3/workplace/users?page=2&email=Bulah63@gmail.com')
         .reply(200, { data: {} });
       return sdk.users
-        .list({ page: 2, email: 'Pascale.Yundt@gmail.com' })
+        .list({ page: 2, email: 'Bulah63@gmail.com' })
         .then((r: any) => expect(r.data).toEqual({}));
     });
   });
@@ -33,23 +33,23 @@ describe('test Users', () => {
   describe('test get', () => {
     test('test api call', () => {
       const scope = nock('https://api.doppler.com')
-        .get('/v3/workplace/users/veniam')
+        .get('/v3/workplace/users/ea')
         .reply(200, { data: {} });
-      return sdk.users.get('veniam').then((r: any) => expect(r.data).toEqual({}));
+      return sdk.users.get('ea').then((r: any) => expect(r.data).toEqual({}));
     });
 
     test('test will throw error if required fields missing', () => {
       const scope = nock('https://api.doppler.com')
-        .get('/v3/workplace/users/aut')
+        .get('/v3/workplace/users/dolores')
         .reply(200, { data: {} });
       return expect(async () => await sdk.users.get()).rejects.toThrow();
     });
 
     test('test will throw error on a non-200 response', () => {
       const scope = nock('https://api.doppler.com')
-        .get('/v3/workplace/users/at')
+        .get('/v3/workplace/users/sit')
         .reply(404, { data: {} });
-      return expect(async () => await sdk.users.get('at')).rejects.toThrow();
+      return expect(async () => await sdk.users.get('sit')).rejects.toThrow();
     });
   });
 });

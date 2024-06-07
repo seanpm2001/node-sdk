@@ -22,9 +22,9 @@ describe('test Invites', () => {
   describe('test list', () => {
     test('test api call', () => {
       const scope = nock('https://api.doppler.com')
-        .get('/v3/workplace/invites?page=4&per_page=7')
+        .get('/v3/workplace/invites?page=9&per_page=6')
         .reply(200, { data: {} });
-      return sdk.invites.list({ page: 4, perPage: 7 }).then((r: any) => expect(r.data).toEqual({}));
+      return sdk.invites.list({ page: 9, perPage: 6 }).then((r: any) => expect(r.data).toEqual({}));
     });
   });
 });
